@@ -1,2 +1,2 @@
-# flask + react native + opencv +  sql (possible for database)
+# flask + opencv
 - thesis object counting prototype
