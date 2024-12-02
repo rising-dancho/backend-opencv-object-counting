@@ -3,7 +3,7 @@
 
 in order to run or test this:
 - make sure you have xampp with ```mysql``` and ```apache``` running on the localhost. (so that you have access to ```phpmyadmin```)
-- and you have python installed on your machine (tick the ```PATH``` checkbox before installing python)
+- python must also be installed on your machine (tick the ```PATH``` checkbox before installing python)
 - just run the backend by typing the command in the terminal:
 ``` python app.py ``` 
 
