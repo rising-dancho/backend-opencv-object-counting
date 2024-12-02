@@ -1,12 +1,12 @@
 # flask + opencv
 - thesis object counting prototype
 
-in order to run or test this:
+## in order to run or test this:
 - make sure you have ```xampp``` with ```mysql``` and ```apache``` running on the localhost. (so that you have access to ```phpmyadmin```)
 - python must also be installed on your machine (tick the ```PATH``` checkbox before installing python)
 - once your done with the instructions above, just run the backend by typing the command in the terminal:
 ``` python app.py ```
-- hit the routes by just using ```postman```
+- install ```postman``` so that you can test the CRUD routes 
 
 ### creating an environment variable
 ```
