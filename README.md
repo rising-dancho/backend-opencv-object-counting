@@ -20,6 +20,11 @@ cd .venv/Scripts
 activate.bat
 ```
 
+### installing packages from the requirements.txt
+```
+pip install -r requirements.txt
+```
+
 ### gitignore must include
 
 ```
@@ -53,11 +58,6 @@ Lib/site-packages/
 # Windows image file caches
 Thumbs.db
 
-```
-
-### installing packages from the requirements.txt
-```
-pip install -r requirements.txt
 ```
 
 ### creating requirements.txt
