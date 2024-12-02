@@ -37,7 +37,7 @@ Lib/site-packages/
 .gitignore
 ```
 
-### installing from the requirements.txt
+### installing packages from the requirements.txt
 ```
 pip install -r requirements.txt
 ```
