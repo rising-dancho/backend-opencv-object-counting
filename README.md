@@ -1,6 +1,12 @@
 # flask + opencv
 - thesis object counting prototype
 
+in order to run or test this:
+- make sure you have xampp with ```mysql``` and ```apache``` are running on the localhost. so that you have access to ```phpmyadmin```
+- and you have python installed on your machine (tick the ```PATH``` checkbox before installing python)
+- just run the backend by typing the command in the terminal:
+``` python app.py ``` 
+
 ### creating an environment variable
 ```
 python -m venv venv
