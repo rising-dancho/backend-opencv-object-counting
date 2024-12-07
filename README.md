@@ -9,7 +9,7 @@
   `python app.py`
 - finally, install `Postman` so that you can test the `/process-image` route
 
-### creating an environment variable
+### creating the virtual environment
 ```
 python -m venv venv
 ```
