@@ -2,12 +2,12 @@
 - thesis object counting prototype
 
 ### in order to run or test this:
-- make sure you have ```XAMPP``` with ```MySQL``` and ```Apache``` running on the localhost. (so that you have access to ```PhpMyAdmin```: create a new table there and name it ```flask```)
-- python must also be installed on your machine (tick the ```PATH``` checkbox before installing python)
-- create the ```virtual environment```, activate it, then install the packages in ```requirements.txt```
-- once your done with the instructions above, just run the backend by using the ```Run and Debug``` button in Vscode:
-``` Run and Debug > Flask > app.py ```
-- finally, install ```Postman``` so that you can test the ```CRUD``` routes 
+- python must be installed on your machine (tick the `PATH` checkbox before installing python)
+- create the `virtual environment`, activate the virtual environment using the `Command Prompt` (make sure you are in the `Scripts` directory where `activate.bat` is located)
+- `cd` back to `backend` folder where the  `requirements.txt` is located and then run the command to install the packages
+- once your done with the instructions above, make sure you are in the folder where `app.py` is located and then run this code in the `Command Prompt`:
+  `python app.py`
+- finally, install `Postman` so that you can test the `/process-image` route
 
 ### creating an environment variable
 ```
