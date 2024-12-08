@@ -8,7 +8,7 @@
 - `cd` back to `backend` folder where the  `requirements.txt` is located and then run the command to install the packages
 - once you're done with the instructions above, make sure you are in the `backend` folder and then run this code in the `Command Prompt`:
   `python app.py`
-- finally, install `Postman` so that you can test the `CRUD` routes
+- finally, install `Postman` so that you can test the `/process-image` route
 
 ### creating the virtual environment
 ```
