@@ -5,19 +5,12 @@ import matplotlib.pyplot as plt
 from flask import Flask, request, jsonify
 import io
 from PIL import Image
+from flask_cors import CORS
+import base64
 
 # Initialize Flask app
 app = Flask(__name__)
-
-
-# Function to display the image and count (for visualization)
-def display(img, count, cmap="gray"):
-    f_image = cv2.imread("coins.jpg")
-    f, axs = plt.subplots(1, 2, figsize=(12, 5))
-    axs[0].imshow(f_image, cmap=cmap)
-    axs[1].imshow(img, cmap=cmap)
-    axs[1].set_title("Total Money Count = {}".format(count))
-
+CORS(app)
 
 # Object detection and counting endpoint
 @app.route("/process-image", methods=["POST"])
@@ -27,8 +20,10 @@ def process_image():
         if "image" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
-        # Read the uploaded image
         file = request.files["image"]
+        print(f"Received file: {file.filename}")  # Log the filename to ensure it's being received
+
+        # Read the uploaded image
         npimg = np.frombuffer(file.read(), np.uint8)
         img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
@@ -43,9 +38,7 @@ def process_image():
         image_blur_gray = cv2.cvtColor(image_blur, cv2.COLOR_BGR2GRAY)
 
         # Step 3: Apply thresholding (Inverted binary)
-        ret, image_thresh = cv2.threshold(
-            image_blur_gray, 240, 255, cv2.THRESH_BINARY_INV
-        )
+        _, image_thresh = cv2.threshold(image_blur_gray, 240, 255, cv2.THRESH_BINARY_INV)
 
         # Step 4: Apply morphological operation to remove noise
         kernel = np.ones((3, 3), np.uint8)
@@ -53,15 +46,11 @@ def process_image():
 
         # Step 5: Apply distance transform and normalize the result
         dist_transform = cv2.distanceTransform(opening, cv2.DIST_L2, 5)
-        ret, last_image = cv2.threshold(
-            dist_transform, 0.3 * dist_transform.max(), 255, 0
-        )
+        _, last_image = cv2.threshold(dist_transform, 0.3 * dist_transform.max(), 255, 0)
         last_image = np.uint8(last_image)
 
         # Step 6: Find contours
-        cnts = cv2.findContours(
-            last_image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-        )
+        cnts = cv2.findContours(last_image.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cnts = imutils.grab_contours(cnts)
 
         # Step 7: Draw contours and label the objects
@@ -70,36 +59,34 @@ def process_image():
             ((x, y), radius) = cv2.minEnclosingCircle(c)
             if radius > 15:  # Filter out small contours based on radius
                 object_count += 1
+                # Draw the contour and the label
                 cv2.putText(
                     img,
-                    "#{}".format(i + 1),
+                    f"#{object_count}",
                     (int(x) - 45, int(y) + 20),
                     cv2.FONT_HERSHEY_SIMPLEX,
-                    2,
+                    1,
                     (255, 0, 0),
-                    5,
+                    2,
                 )
                 cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
 
-        # Convert processed image (BGR) to RGB for display in response
+        # Convert processed image (BGR) to RGB for sending in the response
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        # Convert to PIL Image for sending as response
+        # Encode image as base64
         pil_img = Image.fromarray(img_rgb)
         img_io = io.BytesIO()
         pil_img.save(img_io, "PNG")
         img_io.seek(0)
+        img_base64 = base64.b64encode(img_io.read()).decode("utf-8")
 
-        # Return JSON response with object count and image
-        return (
-            jsonify(
-                {
-                    "object_count": object_count,
-                    "message": "Image processed successfully!",
-                }
-            ),
-            200,
-        )
+        # Return JSON response with object count and base64 image
+        return jsonify({
+            "object_count": object_count,
+            "message": "Image processed successfully!",
+            "processed_image": img_base64,
+        }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
